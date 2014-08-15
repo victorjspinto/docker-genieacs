@@ -1,0 +1,4 @@
+cd /opt
+git clone https://github.com/zaidka/genieacs-gui
+cd genieacs-gui
+bundle

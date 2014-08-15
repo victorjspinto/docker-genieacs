@@ -1,0 +1,9 @@
+wget --no-verbose -O /tmp/mongodb-linux-i686-2.4.10.tgz http://fastdl.mongodb.org/linux/mongodb-linux-i686-2.4.10.tgz
+
+mkdir -p /opt/mongo
+
+mkdir -p /tmp/mongo
+tar xzf /tmp/mongodb-linux-i686-2.4.10.tgz --strip-components=1 -C /tmp/mongo
+mv /tmp/mongo/mongodb-linux-i686-2.4.10/* /opt/mongo
+
+rm -rf /tmp/mongo*

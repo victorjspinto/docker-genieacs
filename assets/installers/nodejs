@@ -1,0 +1,28 @@
+apt-get install -y curl
+
+node_version=$(curl --silent --get --data-urlencode "range=${semver_range}" https://semver.io/node/resolve)
+
+wget --no-verbose -O /tmp/node-$node_version.tar.gz http://nodejs.org/dist/v$node_version/node-v$node_version.tar.gz
+
+mkdir -p /opt/node
+
+tar xzf /tmp/node-$node_version.tar.gz --strip-components=1 -C /opt/node
+rm -f /tmp/node-$node_version.tar.gz
+
+cd /opt/node/
+
+./configure
+make  -s >/dev/null
+make install  -s >/dev/null
+
+cd /
+
+npm install -g grunt-cli
+npm install -g bower
+npm install -g karma-cli
+npm install -g phantomjs
+npm install -g karma-phantomjs-launcher
+
+apt-get install libfontconfig1 # phanton js secrete dependency https://github.com/ariya/phantomjs/issues/10904
+
+apt-get -y autoremove

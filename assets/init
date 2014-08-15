@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+# generate a password for root.
+ROOT_PASSWORD=$(pwgen -c -n -1 12)
+echo "root:$ROOT_PASSWORD" | chpasswd
+echo User: root Password: $ROOT_PASSWORD
+
+# start supervisord
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+supervisorctl start sshd
+
+appStart() {
+	echo "Starting genieacs!";
+	./opt/mongo/bin/mongod
+	redis-server
+	genieacs-cwmp
+	genieacs-nbi
+	genieacs-fs
+	echo "Basic services started! Starting GUI!";
+	cd /opt/genieacs-gui
+	rails server
+	echo "Genieacs GUI started!";
+}
